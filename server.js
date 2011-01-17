@@ -2,9 +2,7 @@ var ws = require("websocket-server"),
 	wsserver = ws.createServer(),
 	express = require("express"),
 	httpserver = express.createServer(),
-	connect = require("connect"),
-	sys = require("sys");
-
+	connect = require("connect");
 
 wsserver.addListener("connection", function(conn){
 	console.log("connected");
