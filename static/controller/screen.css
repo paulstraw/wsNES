@@ -4,10 +4,10 @@ body{font-family:"Lucida Grande","Lucida Sans","Lucida Sans Unicode","Tahoma","V
 .group:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 #controller{width:100%;background:#1f221f;height:100%;color:#b5352d;position:relative;}#controller ul{list-style:none;}
 #dpad{color:#1f221f;width:200px;height:200px;text-shadow:0px 1px rgba(220, 217, 202, 0.5);font-size:30px;position:absolute;top:50%;margin-top:-100px;background:url(dpad.png) no-repeat;}#dpad li{width:70px;height:70px;position:absolute;}
-#dpad #right{right:0;top:50%;margin-top:-25px;transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);text-shadow:0px -1px rgba(220, 217, 202, 0.5);}
-#dpad #left{left:0;top:50%;margin-top:-25px;}
-#dpad #up{left:50%;margin-left:-25px;top:0;}
-#dpad #down{left:50%;margin-left:-25px;bottom:0;}
+#dpad #right{right:0;top:50%;margin-top:-35px;transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);text-shadow:0px -1px rgba(220, 217, 202, 0.5);}
+#dpad #left{left:0;top:50%;margin-top:-35px;}
+#dpad #up{left:50%;margin-left:-35px;top:0;}
+#dpad #down{left:50%;margin-left:-35px;bottom:0;}
 #buttons{position:absolute;right:0;top:50%;margin-top:-42px;}#buttons li{background:#dcd9ca;width:84px;height:84px;float:left;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;margin-right:6px;}
 #buttons div{background:#b5352d;width:70px;height:70px;border:2px solid #111;margin-left:5px;margin-top:5px;float:left;border-radius:50px;-webkit-border-radius:50px;-moz-border-radius:50px;}
 #metabuttons{background:#dcd9ca;padding:12px;position:absolute;width:128px;left:50%;margin-left:-76px;bottom:12px;border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;}#metabuttons li{background:#111;border:2px solid #000;height:20px;width:56px;float:left;border-radius:20px;-webkit-border-radius:20px;-moz-border-radius:20px;}
