@@ -89,11 +89,6 @@ $(document).ready(function(){
 			lastDpadAction = buttonAction;
 			
 			sendAction(button, "on");
-			/*
-conn.send(JSON.stringify({
-				"action": buttonAction
-			}));
-*/
 		},
 		touchmove: function(event){
 			var e = event.originalEvent,
@@ -105,23 +100,13 @@ conn.send(JSON.stringify({
 				if(lastDpadAction !== lastDpadButton + "_off"){
 					lastDpadAction = lastDpadButton + "_off";
 					
-					sendAction(button, "off");
-					/*
-conn.send(JSON.stringify({
-						"action": lastDpadButton + "_off"
-					}));
-*/
+					sendAction(lastDpadButton, "off");
 				}
 			} else if(lastDpadAction !== button + "_on"){
 				lastDpadAction = button + "_on";
 				lastDpadButton = button;
 				
 				sendAction(button, "on");
-				/*
-conn.send(JSON.stringify({
-					"action": button + "_on"
-				}));
-*/
 			}
 		},
 		touchend: function(e){
@@ -135,11 +120,6 @@ conn.send(JSON.stringify({
 				lastDpadAction = buttonAction;
 				
 				sendAction(button, "off");
-				/*
-conn.send(JSON.stringify({
-					"action": buttonAction
-				}));
-*/
 			}
 		}
 	});
