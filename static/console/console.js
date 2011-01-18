@@ -38,13 +38,19 @@ var connect = function(){
 };
 
 $(document).ready(function(){
-	new JSNES({
-		"ui": $("#jsnes").text("").JSNESUI({
-			"Working": [
-				["Super Mario Bros.", "roms/SMB.nes"]
-			]
-		})
+	$.ajax({
+		type: "get",
+		url: "/listroms",
+		success: function(roms){
+			console.log(roms);
+			new JSNES({
+				"ui": $("#jsnes").text("").JSNESUI({
+					"Roms": roms
+				})
+			});
+		}
 	});
+
 });
 
 window.onload = connect;

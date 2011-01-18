@@ -1,5 +1,6 @@
 var ws = require("websocket-server"),
 	wsserver = ws.createServer(),
+	fs = require("fs"),
 	express = require("express"),
 	httpserver = express.createServer();
 
@@ -38,6 +39,33 @@ httpserver.get("/", function(req, res){
 	} else {
 		res.redirect("console/");
 	}
+});
+
+httpserver.get("/listroms", function(req, res){
+	fs.readdir("static/console/roms", function(err, files){
+		if(err){
+			console.log(err);
+			res.send([]);
+			
+			return;
+		}
+		
+		var romCount = files.length,
+			romList = [];
+		
+		for(var i = 0; i < romCount; i++){
+			var romData = [],
+				romFileName = files[i],
+				romFilePath = "roms/" + romFileName,
+				romName = romFileName.substr(0, romFileName.lastIndexOf("."));
+			
+			romData.push(romName, romFilePath);
+			romList.push(romData);
+		}
+		
+		console.log(romList);
+		res.send(romList);
+	});
 });
 
 httpserver.listen(80);
