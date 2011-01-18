@@ -24,7 +24,7 @@ $(document).ready(function(){
 		var e = evt.originalEvent,
 			gamma = e.gamma;
 		
-		if((gamma > 55 && gamma < 120) || (gamma < -55 && gamma > -120)){
+		if((gamma > 55 && gamma < 130) || (gamma < -55 && gamma > -130)){
 			if(gammaButtonState === false){
 				gammaButtonState = true;
 				sendAction("a", "on");
