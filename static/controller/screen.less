@@ -1,4 +1,5 @@
 * { border:0px; margin:0px; padding:0px; }
+html, body { height: 100%; }
 body { font-family:"Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Tahoma", "Verdana", sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; -webkit-user-select:none; }
 
 /* clearfix: */
@@ -17,17 +18,17 @@ body { font-family:"Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Tahom
 
 #dpad {
 	color: #1f221f;
-	width: 150px;
-	height: 150px;
+	width: 200px;
+	height: 200px;
 	text-shadow: 0px 1px rgba(220,217,202,0.5);
 	font-size: 30px;
-	position: relative;
-	float: left;
+	position: absolute;
+	top: 50%;
+	margin-top: -100px;
+	background: url(dpad.png) no-repeat;
 	li {
-		width: 50px;
-		height: 38px;
-		text-align: center;
-		padding-top: 12px;
+		width: 70px;
+		height: 70px;
 		position: absolute;
 	}
 	#right {
@@ -60,20 +61,24 @@ body { font-family:"Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Tahom
 	position: absolute;
 	right: 0;
 	top: 50%;
-	margin-top: -25px;
+	margin-top: -42px;
 	li {
 		background: #dcd9ca;
-		width: 60px;
-		height: 60px;
+		width: 84px;
+		height: 84px;
 		float: left;
+		border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		margin-right: 6px;
 	}
 	div {
 		background: #b5352d;
-		width: 50px;
-		height: 50px;
+		width: 70px;
+		height: 70px;
 		border: 2px solid #111;
-		margin-left: 3px;
-		margin-top: 3px;
+		margin-left: 5px;
+		margin-top: 5px;
 		float: left;
 		border-radius: 50px;
 		-webkit-border-radius: 50px;
@@ -83,21 +88,24 @@ body { font-family:"Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Tahom
 
 #metabuttons {
 	background: #dcd9ca;
-	padding: 8px;
+	padding: 12px;
 	position: absolute;
-	width: 124px;
+	width: 128px;
 	left: 50%;
-	margin-left: -62px;
-	bottom: 10px;
+	margin-left: -76px;
+	bottom: 12px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
 	li {
-		background: #1f221f;
-		border: 2px solid #111;
-		height: 18px;
-		width: 54px;
+		background: #111;
+		border: 2px solid #000;
+		height: 20px;
+		width: 56px;
 		float: left;
-		border-radius: 50px;
-		-webkit-border-radius: 50px;
-		-moz-border-radius: 50px;
+		border-radius: 20px;
+		-webkit-border-radius: 20px;
+		-moz-border-radius: 20px;
 	}
 	#start {
 		margin-left: 8px;
