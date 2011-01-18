@@ -7,7 +7,6 @@ var connect = function(){
 			
 			var button = data["button"],
 				status = data["status"],
-				//press = data["action"].split("_"),
 				keyCode;
 			
 			switch(button){
@@ -26,12 +25,12 @@ var connect = function(){
 			if(status === "on"){
 				$(document).trigger({
 					type: "keydown",
-					which: keyCode
+					keyCode: keyCode
 				});
 			} else {
 				$(document).trigger({
 					type: "keyup",
-					which: keyCode
+					keyCode: keyCode
 				});
 			}
 		};
