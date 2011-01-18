@@ -25,12 +25,12 @@ var connect = function(){
 			
 			if(status === "on"){
 				$(document).trigger({
-					type: "buttonon",
+					type: "keydown",
 					which: keyCode
 				});
 			} else {
 				$(document).trigger({
-					type: "buttonoff",
+					type: "keyup",
 					which: keyCode
 				});
 			}

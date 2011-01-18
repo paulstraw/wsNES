@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var JSNES = function(opts) {
 	this.opts = {
 		ui: JSNES.DummyUI,
-		swfPath: 'lib/',
+		swfPath: '',
 		
 		preferredFrameRate: 60,
 		fpsInterval: 500, // Time between updating FPS in ms
@@ -70,7 +70,7 @@ var JSNES = function(opts) {
 	this.ui.updateStatus("Ready to load a ROM.");
 };
 
-JSNES.VERSION = "a51193129179cf301154";
+JSNES.VERSION = "";
 
 JSNES.prototype = {
 	isRunning: false,
@@ -2080,27 +2080,15 @@ JSNES.Keyboard.prototype = {
 		}
 		return false; // preventDefault
 	},
-	
-	buttonOn: function(evt) {
-		if (!this.setKey(evt.which, 0x41) && evt.preventDefault) {
-			evt.preventDefault();
-		}
-	},
-	
-	buttonOff: function(evt) {
-		if (!this.setKey(evt.which, 0x40) && evt.preventDefault) {
-			evt.preventDefault();
-		}
-	},
-	
+
 	keyDown: function(evt) {
-		if (!this.setKey(evt.which, 0x41) && evt.preventDefault) {
+		if (!this.setKey(evt.keyCode, 0x41) && evt.preventDefault) {
 			evt.preventDefault();
 		}
 	},
 	
 	keyUp: function(evt) {
-		if (!this.setKey(evt.which, 0x40) && evt.preventDefault) {
+		if (!this.setKey(evt.keyCode, 0x40) && evt.preventDefault) {
 			evt.preventDefault();
 		}
 	},
@@ -2572,7 +2560,7 @@ JSNES.Mappers[0].prototype = {
 		}
 		this.nes.ppu.triggerRendering();
 	
-		var bank4k = parseInt(bank1k / 4, 10) % this.nes.rom.vromCount;
+		var bank4k = Math.floor(bank1k / 4) % this.nes.rom.vromCount;
 		var bankoffset = (bank1k % 4) * 1024;
 		JSNES.Utils.copyArrayElements(this.nes.rom.vrom[bank4k], 0, 
 			this.nes.ppu.vramMem, bankoffset, 1024);
@@ -2591,7 +2579,7 @@ JSNES.Mappers[0].prototype = {
 		}
 		this.nes.ppu.triggerRendering();
 	
-		var bank4k = parseInt(bank2k / 2, 10) % this.nes.rom.vromCount;
+		var bank4k = Math.floor(bank2k / 2) % this.nes.rom.vromCount;
 		var bankoffset = (bank2k % 2) * 2048;
 		JSNES.Utils.copyArrayElements(this.nes.rom.vrom[bank4k], bankoffset,
 			this.nes.ppu.vramMem, address, 2048);
@@ -2605,7 +2593,7 @@ JSNES.Mappers[0].prototype = {
 	},
 
 	load8kRomBank: function(bank8k, address) {
-		var bank16k = parseInt(bank8k / 2, 10) % this.nes.rom.romCount;
+		var bank16k = Math.floor(bank8k / 2) % this.nes.rom.romCount;
 		var offset = (bank8k % 2) * 8192;
 	
 		//this.nes.cpu.mem.write(address,this.nes.rom.rom[bank16k],offset,8192);
@@ -2760,7 +2748,7 @@ JSNES.Mappers[1].prototype.setReg = function(reg, value) {
 					}
 					else {
 						this.load8kVromBank(
-							parseInt(this.nes.rom.vromCount / 2, 10) +
+							Math.floor(this.nes.rom.vromCount / 2) +
 								(value & 0xF), 
 							0x0000
 						);
@@ -2774,7 +2762,7 @@ JSNES.Mappers[1].prototype.setReg = function(reg, value) {
 					}
 					else {
 						this.loadVromBank(
-							parseInt(this.nes.rom.vromCount / 2, 10) +
+							Math.floor(this.nes.rom.vromCount / 2) +
 								(value & 0xF),
 							0x0000
 						);
@@ -2799,7 +2787,7 @@ JSNES.Mappers[1].prototype.setReg = function(reg, value) {
 					}
 					else {
 						this.loadVromBank(
-							parseInt(this.nes.rom.vromCount / 2, 10) +
+							Math.floor(this.nes.rom.vromCount / 2) +
 								(value & 0xF),
 							0x1000
 						);
@@ -3350,16 +3338,14 @@ JSNES.PAPU = function(nes) {
 JSNES.PAPU.prototype = {
 	reset: function() {
 		this.sampleRate = this.nes.opts.sampleRate;
-		this.sampleTimerMax = parseInt(
+		this.sampleTimerMax = Math.floor(
 			(1024.0 * this.nes.opts.CPU_FREQ_NTSC *
 				this.nes.opts.preferredFrameRate) / 
-				(this.sampleRate * 60.0),
-			10
+				(this.sampleRate * 60.0)
 		);
 	
-		this.frameTime = parseInt(
-			(14915.0 * this.nes.opts.preferredFrameRate) / 60.0,
-			10
+		this.frameTime = Math.floor(
+			(14915.0 * this.nes.opts.preferredFrameRate) / 60.0
 		);
 
 		this.sampleTimer = 0;
@@ -3688,8 +3674,8 @@ JSNES.PAPU.prototype = {
 	accSample: function(cycles) {
 		// Special treatment for triangle channel - need to interpolate.
 		if (this.triangle.sampleCondition) {
-			this.triValue = parseInt((this.triangle.progTimerCount<<4) /
-					(this.triangle.progTimerMax+1), 10);
+			this.triValue = Math.floor((this.triangle.progTimerCount << 4) /
+					(this.triangle.progTimerMax + 1));
 			if (this.triValue > 16) {
 				this.triValue = 16;
 			}
@@ -3780,15 +3766,15 @@ JSNES.PAPU.prototype = {
 		if (this.accCount > 0) {
 
 			this.smpSquare1 <<= 4;
-			this.smpSquare1 = parseInt(this.smpSquare1 / this.accCount, 10);
+			this.smpSquare1 = Math.floor(this.smpSquare1 / this.accCount);
 
 			this.smpSquare2 <<= 4;
-			this.smpSquare2 = parseInt(this.smpSquare2 / this.accCount, 10);
+			this.smpSquare2 = Math.floor(this.smpSquare2 / this.accCount);
 
-			this.smpTriangle = parseInt(this.smpTriangle / this.accCount, 10);
+			this.smpTriangle = Math.floor(this.smpTriangle / this.accCount);
 
 			this.smpDmc <<= 4;
-			this.smpDmc = parseInt(this.smpDmc / this.accCount, 10);
+			this.smpDmc = Math.floor(this.smpDmc / this.accCount);
 		
 			this.accCount = 0;
 		}
@@ -3799,8 +3785,8 @@ JSNES.PAPU.prototype = {
 			this.smpDmc = this.dmc.sample << 4;
 		}
 	
-		var smpNoise = parseInt((this.noise.accValue << 4) / 
-				this.noise.accCount, 10);
+		var smpNoise = Math.floor((this.noise.accValue << 4) / 
+				this.noise.accCount);
 		this.noise.accValue = smpNoise >> 4;
 		this.noise.accCount = 1;
 
@@ -4010,7 +3996,7 @@ JSNES.PAPU.prototype = {
 			value = 95.52 / (8128.0 / (i/16.0) + 100.0);
 			value *= 0.98411;
 			value *= 50000.0;
-			ival = parseInt(value, 10);
+			ival = Math.floor(value);
 		
 			this.square_table[i] = ival;
 			if (ival > max_sqr) {
@@ -4022,7 +4008,7 @@ JSNES.PAPU.prototype = {
 			value = 163.67 / (24329.0 / (i/16.0) + 100.0);
 			value *= 0.98411;
 			value *= 50000.0;
-			ival = parseInt(value, 10);
+			ival = Math.floor(value);
 		
 			this.tnd_table[i] = ival;
 			if (ival > max_tnd) {
@@ -6104,7 +6090,7 @@ JSNES.PPU.prototype = {
 	// table buffers with this new byte.
 	// In vNES, there is a version of this with 4 arguments which isn't used.
 	patternWrite: function(address, value){
-		var tileIndex = parseInt(address / 16, 10);
+		var tileIndex = Math.floor(address / 16);
 		var leftOver = address%16;
 		if (leftOver<8) {
 			this.ptTile[tileIndex].setScanline(
@@ -6142,7 +6128,7 @@ JSNES.PPU.prototype = {
 	// Updates the internally buffered sprite
 	// data with this new byte of info.
 	spriteRamWriteUpdate: function(address, value) {
-		var tIndex = parseInt(address / 4, 10);
+		var tIndex = Math.floor(address / 4);
 		
 		if (tIndex === 0) {
 			//updateSpr0Hit();
@@ -6267,7 +6253,7 @@ JSNES.PPU.NameTable.prototype = {
 
 	writeAttrib: function(index, value){
 		var basex = (index % 8) * 4;
-		var basey = parseInt(index / 8, 10) * 4;
+		var basey = Math.floor(index / 8) * 4;
 		var add;
 		var tx, ty;
 		var attindex;
@@ -6325,22 +6311,25 @@ JSNES.PPU.PaletteTable.prototype = {
 	},
 	
 	makeTables: function(){
-		var r,g,b,col;
+		var r, g, b, col, i, rFactor, gFactor, bFactor;
 		
 		// Calculate a table for each possible emphasis setting:
-		for (var emph=0;emph<8;emph++) {
+		for (var emph = 0; emph < 8; emph++) {
 			
 			// Determine color component factors:
-			var rFactor=1.0, gFactor=1.0, bFactor=1.0;
-			if ((emph&1)!==0) {
+			rFactor = 1.0;
+			gFactor = 1.0;
+			bFactor = 1.0;
+			
+			if ((emph & 1) !== 0) {
 				rFactor = 0.75;
 				bFactor = 0.75;
 			}
-			if ((emph&2)!==0) {
+			if ((emph & 2) !== 0) {
 				rFactor = 0.75;
 				gFactor = 0.75;
 			}
-			if ((emph&4)!==0) {
+			if ((emph & 4) !== 0) {
 				gFactor = 0.75;
 				bFactor = 0.75;
 			}
@@ -6348,12 +6337,12 @@ JSNES.PPU.PaletteTable.prototype = {
 			this.emphTable[emph] = new Array(64);
 			
 			// Calculate table:
-			for (var i=0;i<64;i++) {
+			for (i = 0; i < 64; i++) {
 				col = this.curTable[i];
-				r = parseInt(this.getRed(col) * rFactor, 10);
-				g = parseInt(this.getGreen(col) * gFactor, 10);
-				b = parseInt(this.getBlue(col) * bFactor, 10);
-				this.emphTable[emph][i] = this.getRgb(r,g,b);
+				r = Math.floor(this.getRed(col) * rFactor);
+				g = Math.floor(this.getGreen(col) * gFactor);
+				b = Math.floor(this.getBlue(col) * bFactor);
+				this.emphTable[emph][i] = this.getRgb(r, g, b);
 			}
 		}
 	},
@@ -6361,7 +6350,7 @@ JSNES.PPU.PaletteTable.prototype = {
 	setEmphasis: function(emph){
 		if (emph != this.currentEmph) {
 			this.currentEmph = emph;
-			for (var i=0;i<64;i++) {
+			for (var i = 0; i < 64; i++) {
 				this.curTable[i] = this.emphTable[emph][i];
 			}
 		}
@@ -7018,22 +7007,14 @@ if (typeof jQuery !== 'undefined') {
 					}).
 					bind('keypress', function(evt) {
 						self.nes.keyboard.keyPress(evt);
-					}).
-					bind('buttonon', function(evt) {
-						self.nes.keyboard.buttonOn(evt);
-					}).
-					bind('buttonoff', function(evt) {
-						self.nes.keyboard.buttonOff(evt);
 					});
 			
 				/*
 				 * Sound
 				 */
-				/*
-self.dynamicaudio = new DynamicAudio({
+				self.dynamicaudio = new DynamicAudio({
 					swf: nes.opts.swfPath+'dynamicaudio.swf'
 				});
-*/
 			};
 		
 			UI.prototype = {	
