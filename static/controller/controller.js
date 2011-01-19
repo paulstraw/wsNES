@@ -7,13 +7,27 @@ function connect(){
 
 function sendAction(button, status){
 	conn.send(JSON.stringify({
+		"action": "buttonPress",
 		"button": button,
 		"status": status
 	}));
 }
 
 $(document).ready(function(){
+	var controllerID,
+		consoleID;
+	
 	connect();
+	
+	conn.onmessage = function(e){
+		var data = JSON.parse(e.data),
+			action = data["action"];
+		
+		if(action === "sendConnectionID"){
+			controllerID = data["connectionID"];
+			console.log(controllerID);
+		}
+	};
 	
 	$(document).bind("touchmove", function(e){
 		e.preventDefault();

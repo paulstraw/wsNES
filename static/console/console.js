@@ -1,10 +1,26 @@
 var conn;
-var connect = function(){
+function connect(){
 	if(window["WebSocket"]){
 		conn = new WebSocket("ws://" + location.hostname + ":3000");
-		conn.onmessage = function(e){
-			data = JSON.parse(e.data);
-			
+	}
+}
+
+$(document).ready(function(){
+	var consoleID,
+		controllerID;
+	
+	connect();
+	
+	conn.onmessage = function(e){
+		var data = JSON.parse(e.data),
+			action = data["action"];
+		
+		if(action === "sendConnectionID"){
+			consoleID = data["connectionID"];
+			console.log(consoleID);
+		} else if( action === "controllerConnect"){
+			controllerID = data["controllerID"];
+		} else if(action === "buttonPress"){
 			var button = data["button"],
 				status = data["status"],
 				keyCode;
@@ -33,16 +49,13 @@ var connect = function(){
 					keyCode: keyCode
 				});
 			}
-		};
-	}
-};
-
-$(document).ready(function(){
+		}
+	};
+	
 	$.ajax({
 		type: "get",
 		url: "/listroms",
 		success: function(roms){
-			console.log(roms);
 			new JSNES({
 				"ui": $("#jsnes").text("").JSNESUI({
 					"Roms": roms
@@ -50,7 +63,4 @@ $(document).ready(function(){
 			});
 		}
 	});
-
 });
-
-window.onload = connect;
