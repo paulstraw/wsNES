@@ -6877,7 +6877,7 @@ if (typeof jQuery !== 'undefined') {
 				 * Create UI
 				 */
 				self.root = $('<div></div>');
-				self.screen = $('<canvas class="nes-screen"></canvas>').appendTo(self.root);
+				self.screen = $('<canvas class="nes-screen" width="256" height="240"></canvas>').appendTo(self.root);
 				
 				if (!self.screen[0].getContext) {
 					parent.html("Your browser doesn't support the <code>&lt;canvas&gt;</code> tag. Try Google Chrome, Safari, Opera or Firefox!");
@@ -6891,7 +6891,8 @@ if (typeof jQuery !== 'undefined') {
 				self.buttons = {
 					pause: $('<input type="button" value="pause" class="nes-pause" disabled="disabled">').appendTo(self.controls),
 					restart: $('<input type="button" value="restart" class="nes-restart" disabled="disabled">').appendTo(self.controls),
-					sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls)
+					sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls),
+					zoom: $('<input type="button" value="zoom in" class="nes-zoom">').appendTo(self.controls)
 				};
 				self.status = $('<p class="nes-status">Booting up...</p>').appendTo(self.root);
 				self.root.appendTo(parent);
@@ -6931,6 +6932,26 @@ if (typeof jQuery !== 'undefined') {
 					else {
 						self.nes.opts.emulateSound = true;
 						self.buttons.sound.attr("value", "disable sound");
+					}
+				});
+		
+				self.zoomed = false;
+				self.buttons.zoom.click(function() {
+					if (self.zoomed) {
+						self.screen.animate({
+							width: '256px',
+							height: '240px'
+						});
+						self.buttons.zoom.attr("value", "zoom in");
+						self.zoomed = false;
+					}
+					else {
+						self.screen.animate({
+							width: '512px',
+							height: '480px'
+						});
+						self.buttons.zoom.attr("value", "zoom out");
+						self.zoomed = true;
 					}
 				});
 				
