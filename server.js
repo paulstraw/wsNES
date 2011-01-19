@@ -6,6 +6,11 @@ var ws = require("websocket-server"),
 
 wsserver.addListener("connection", function(conn){
 	console.log("connected");
+	conn.send(JSON.stringify({
+		"action": "sendConnectionID",
+		"connectionID": conn.id
+	}));
+	
 	conn.addListener("message", function(message){
 		message = JSON.parse(message);
 		message["id"] = conn.id;
@@ -63,7 +68,6 @@ httpserver.get("/listroms", function(req, res){
 			romList.push(romData);
 		}
 		
-		console.log(romList);
 		res.send(romList);
 	});
 });
