@@ -16,10 +16,15 @@ $(document).ready(function(){
 			action = data["action"];
 		
 		if(action === "sendConnectionID"){
-			consoleID = data["connectionID"];
-			console.log(consoleID);
-		} else if( action === "controllerConnect"){
+			$("#consoleid").text("Console ID: " + data["id"]);
+		} else if(action === "controllerConnectAttempt"){
 			controllerID = data["controllerID"];
+			$("dfn").text(controllerID);
+			
+			conn.send(JSON.stringify({
+				"action": "controllerConnected",
+				"controllerID": controllerID
+			}));
 		} else if(action === "buttonPress"){
 			var button = data["button"],
 				status = data["status"],
@@ -36,7 +41,7 @@ $(document).ready(function(){
 				case "start": keyCode = 13; break;
 			}
 			
-			$("#lastmessage").prepend(button + " " + status + "<br />");
+			$("<li />").text(button + " " + status).prependTo("#lastmessage");
 			
 			if(status === "on"){
 				$(document).trigger({

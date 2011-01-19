@@ -5,21 +5,36 @@ var ws = require("websocket-server"),
 	httpserver = express.createServer();
 
 wsserver.addListener("connection", function(conn){
-	console.log("connected");
+	console.log(conn.id + " connected");
 	conn.send(JSON.stringify({
 		"action": "sendConnectionID",
-		"connectionID": conn.id
+		"id": conn.id
 	}));
 	
 	conn.addListener("message", function(message){
 		message = JSON.parse(message);
 		message["id"] = conn.id;
-		conn.broadcast(JSON.stringify(message));
+		
+		if(message.action === "connectToConsole"){
+			console.log("connecting");
+			wsserver.send(message.consoleID, JSON.stringify({
+				"action": "controllerConnectAttempt",
+				"controllerID": conn.id
+			}));
+		} else if(message.action === "controllerConnected"){
+			console.log("connected!");
+			wsserver.send(message.controllerID, JSON.stringify({
+				"action": "connectedToConsole"
+			}));
+		} else {
+			console.log(JSON.stringify(message));
+			conn.broadcast(JSON.stringify(message));
+		}
 	});
 });
 
 wsserver.addListener("close", function(conn){
-	console.log("closed");
+	console.log(conn.id + " closed");
 	conn.broadcast(
 		JSON.stringify({
 			"id": conn.id,
