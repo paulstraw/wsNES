@@ -1,5 +1,5 @@
 * { border:0px; margin:0px; padding:0px; }
-body { font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background: #1f221f; color: #dcd9ca; font-size: 14px; }
+body { font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background: #1f221f; color: #727272; font-size: 14px; }
 
 /* clearfix: */
 .group:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
@@ -12,13 +12,58 @@ body { font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif; -webkit-f
 		width: 300px;
 		height: 273px;
 	}
-	input[type="button"] {
-		font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif;
-		color: #95150d;
-		background: #727272;
-		font-weight: bold;
-		font-size: 14px;
-		padding: 10px 10px 2px 2px;
-		margin-right: 6px;
+	.nes-roms {
+		margin: 12px 0;
+		select {
+			width: 100%;
+			font-size: 14px;
+			font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif;
+		}
 	}
+	.nes-controls{
+		input[type="button"] {
+			font-family:"Helvetica Neue", "Helvetica", "Arial", sans-serif;
+			color: #95150d;
+			background: #727272;
+			font-weight: bold;
+			font-size: 14px;
+			padding: 10px 10px 2px 2px;
+			margin-right: 6px;
+		}
+	}
+	.nes-status {
+		margin-top: 6px;
+	}
+}
+
+#controller {
+	width: 150px;
+	position: absolute;
+	left: 50%;
+	margin-left: -324px;
+	height: 300px;
+	overflow: hidden;
+	h3 {
+		border-bottom: 1px solid #727272;
+	}
+	dfn {
+		font-size: 12px;
+		font-style: italic;
+		display: block;
+		margin-bottom: 6px;
+	}
+	ul {
+		list-style: none;
+	}
+}
+
+#consoleid {
+	position: absolute;
+	text-align: center;
+	bottom: 10px;
+	width: 200px;
+	left: 50%;
+	margin-left: -100px;
+	font-size: 16px;
+	font-weight: bold;
 }
