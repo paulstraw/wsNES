@@ -8,6 +8,10 @@
 		<meta name="developer" content="Paul Straw">
 		<meta name="viewport" content="width=device-width; initial-scale=1 maximum-scale=1"/>
 		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 163dpi)" href="icon-57.png" />
+		<link rel="apple-touch-icon-precomposed" media="screen and (resolution: 326dpi)" href="icon-114.png" />
 		
 		<title>wsNES</title>
 		
@@ -18,6 +22,14 @@
 	</head>
 
 	<body>
+		<div id="installer">
+			<p>Installation: Tap here, then tap "Add to Home Screen." Once installed, launch directly from your SpringBoard!</p>
+		</div>
+		
+		<div id="orientation">
+			<p>This controller runs in landscape mode, please rotate your device.</p>
+		</div>
+		
 		<div id="controller" class="group">
 			<ul id="dpad">
 				<li class="dpad" id="up"></li>
