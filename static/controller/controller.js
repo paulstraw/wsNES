@@ -42,8 +42,6 @@ $(document).ready(function(){
 		});
 		
 		$("input").keydown(connectToConsole);
-		
-		
 	};
 	
 	function checkOrientation(launch){
@@ -69,6 +67,7 @@ $(document).ready(function(){
 	function sendButtonPress(button, status){
 		conn.send(JSON.stringify({
 			"action": "buttonPress",
+			"console": consoleID,
 			"button": button,
 			"status": status
 		}));
@@ -87,6 +86,7 @@ $(document).ready(function(){
 	
 	function connectedToConsole(){
 		consoleID = $("input").val();
+		
 		initController();
 	}
 	

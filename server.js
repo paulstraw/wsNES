@@ -27,8 +27,11 @@ wsserver.addListener("connection", function(conn){
 				"action": "connectedToConsole"
 			}));
 		} else {
-			console.log(JSON.stringify(message));
-			conn.broadcast(JSON.stringify(message));
+			wsserver.send(message.console, JSON.stringify({
+				"action": message.action,
+				"button": message.button,
+				"status": message.status
+			}));
 		}
 	});
 });
